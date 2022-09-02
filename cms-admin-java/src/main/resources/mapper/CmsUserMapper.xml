@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.coderlan.mapper.CmsUserMapper">
+    <select id="getNavMenuIds" resultType="java.lang.Long">
+        SELECT
+            DISTINCT rm.menu_id
+        FROM
+            cms_user_role ur
+        LEFT JOIN cms_role_menus rm ON ur.role_id = rm.role_id
+        WHERE ur.user_id = #{userId}
+
+    </select>
+
+    <select id="getUserDepartmentId" resultType="java.lang.Long">
+        SELECT
+            department_id
+        FROM
+            cms_user_department ud
+        WHERE ud.user_id = #{userId}
+    </select>
+
+    <select id="getUserRoleId" resultType="java.lang.Long">
+        SELECT
+            role_id
+        FROM
+            cms_user_role cur
+        WHERE  cur.user_id = #{userId}
+    </select>
+
+    <select id="listByMenuId" resultType="com.coderlan.entity.CmsUser">
+
+        SELECT DISTINCT
+            su.*
+        FROM
+            cms_user_role ur
+        LEFT JOIN cms_role_menus rm ON ur.role_id = rm.role_id
+        LEFT JOIN cms_user su ON ur.user_id = su.id
+
+        WHERE
+            rm.menu_id = #{menuId}
+    </select>
+</mapper>
